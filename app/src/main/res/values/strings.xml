@@ -5,6 +5,9 @@
     <string name="text_code_lines">Написано строк кода</string>
     <string name="app_projects">Проектов</string>
 
+    <string name="menu_user_title">Мой профиль</string>
+    <string name="menu_team_title">Команда</string>
+
     <string name="hint_phone">Мобильный телефон</string>
     <string name="hint_email">E-mail</string>
     <string name="hint_github">Репозиторий</string>
