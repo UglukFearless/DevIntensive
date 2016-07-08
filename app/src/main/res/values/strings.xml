@@ -19,4 +19,22 @@
     <string name="text_vk_profile">vk.com/uglukfearless</string>
     <string name="text_about_me">Обладаю руками, ногами, глазами и вообще всеми членами
         , необходимыми для стабильной жизнедеятельности!</string>
+
+    <string name="user_profile.placeholder.image">Изменить фотографию профиля</string>
+    <string name="user_profile_dialog_gallery">Загрузить из галлереи</string>
+    <string name="user_profile_dialog_camera">Сделать снимок</string>
+    <string name="user_profile_dialog_cancel">Отмена</string>
+    <string name="user_profile_dialog_title">Изменить фотографию профиля</string>
+    <string name="user_profile_choise_message">выберите фотографию</string>
+    <string name="label_start_login">ВОЙТИ</string>
+    <string name="hint_password">Пароль</string>
+    <string name="label_login_forget_password">Забыли пароль?</string>
+    <string name="exit_menu">Выход</string>
+    <string name="error_input_user_info">Некорректный ввод данных!</string>
+    <string name="label_info_permission">Для корректной работы приложения необходимо дать требуемые разрешения</string>
+    <string name="label_title_permission">Разрешить</string>
+    <string name="error_format_phone">Некорректный формат. Формат: +x xxx xxx-xx-xx</string>
+    <string name="error_format_email">Некорректный формат. Формат: xxx@xx.xx</string>
+    <string name="error_format_path_vk">Некорректный формат. Формат: vk.com/xxx</string>
+    <string name="error_format_path_github">Некорректный формат. Формат: github.com/xxx</string>
 </resources>
