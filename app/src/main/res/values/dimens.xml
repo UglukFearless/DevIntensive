@@ -21,6 +21,7 @@
 
     <dimen name="profile_image_size">256dp</dimen>
     <dimen name="fab_right_space">8dp</dimen>
+    <dimen name="placeholder_photo_size_90">90dp</dimen>
 
     <!--Space-->
     <dimen name="spacing_small_2">2dp</dimen>
@@ -38,4 +39,6 @@
     <!--Fonts-->
     <dimen name="font_normal_14">14sp</dimen>
     <dimen name="font_medium_20">20sp</dimen>
+    <dimen name="size_small_3">3dp</dimen>
+    <dimen name="size_mediun_avatar_60">60dp</dimen>
 </resources>

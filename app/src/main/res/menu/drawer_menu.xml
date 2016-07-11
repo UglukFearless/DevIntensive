@@ -9,5 +9,9 @@
         <item android:id="@+id/team_menu"
               android:icon="@drawable/ic_people_24dp"
               android:title="@string/menu_team_title"/>
+        <item
+            android:id="@+id/exit_menu"
+            android:icon="@drawable/ic_exit_to_app_black_24px"
+            android:title="@string/exit_menu"/>
     </group>
 </menu>
