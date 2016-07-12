@@ -7,6 +7,7 @@
     <dimen name="size_null">0dp</dimen>
     <dimen name="size_small_1">1dp</dimen>
     <dimen name="size_small_2">2dp</dimen>
+    <dimen name="size_small_3">3dp</dimen>
     <dimen name="size_small_8">8dp</dimen>
     <dimen name="size_normal_16">16dp</dimen>
     <dimen name="size_normal_24">24dp</dimen>
@@ -17,6 +18,8 @@
     <dimen name="size_large_80">80dp</dimen>
     <dimen name="size_large_96">96dp</dimen>
     <dimen name="size_large_104">104dp</dimen>
+    <dimen name="size_large_112">112dp</dimen>
+    <dimen name="size_extra_large_256">256dp</dimen>
 
 
     <dimen name="profile_image_size">256dp</dimen>
@@ -39,6 +42,11 @@
     <!--Fonts-->
     <dimen name="font_normal_14">14sp</dimen>
     <dimen name="font_medium_20">20sp</dimen>
-    <dimen name="size_small_3">3dp</dimen>
+
     <dimen name="size_mediun_avatar_60">60dp</dimen>
+    <dimen name="size_extra_large_240">240dp</dimen>
+    <dimen name="size_small_4">4dp</dimen>
+    <dimen name="spacing_normal_20">20dp</dimen>
+    <dimen name="size_large_126">126dp</dimen>
+
 </resources>

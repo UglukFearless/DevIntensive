@@ -43,6 +43,7 @@ import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.data.managers.DataManager;
 import com.softdesign.devintensive.utils.CircleAvatarDrawable;
 import com.softdesign.devintensive.utils.ConstantManager;
+import com.softdesign.devintensive.utils.NetworkStatusChecker;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -56,6 +57,13 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -100,10 +108,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindViews({R.id.et_phone, R.id.et_email, R.id.et_vk, R.id.et_github, R.id.et_account})
     List<EditText> mUserFieldViews;
 
+    @BindView(R.id.user_info_rait_txt)
+    TextView mUserValueRating;
+    @BindView(R.id.user_info_code_lines_txt)
+    TextView mUserValueCodeLines;
+    @BindView(R.id.user_info_projects_txt)
+    TextView mUserValueProjects;
+
     @BindView (R.id.et_email)
     EditText mUserMail;
 
-    private TextView mUserEmail;
+    private TextView mUserProfileEmail;
+    private TextView mUserProfileName;
 
     private AppBarLayout.LayoutParams mAppBarParams = null;
 
@@ -112,6 +128,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private Integer[] mArrayErrors = {R.string.error_format_phone, R.string.error_format_email,
             R.string.error_format_path_vk, R.string.error_format_path_github};
+
+    private List<TextView> mUserValueViews;
 
     /**
      * @param savedInstanceState - объект со значениями сохраненными в Bundle - состояние UI
@@ -129,7 +147,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         View v = mNavigationView.getHeaderView(0);
 
         avatarImg = (ImageView) v.findViewById(R.id.iv_avatar);
-        mUserEmail = (TextView) v.findViewById(R.id.user_email_txt);
+        mUserProfileEmail = (TextView) v.findViewById(R.id.user_email_txt);
+        mUserProfileName = (TextView) v.findViewById(R.id.user_name_txt);
+
+        mUserValueViews = new ArrayList<TextView>();
+        mUserValueViews.add(mUserValueRating);
+        mUserValueViews.add(mUserValueCodeLines);
+        mUserValueViews.add(mUserValueProjects);
 
         mFab.setOnClickListener(this);
         mProfilePlaceholder.setOnClickListener(this);
@@ -141,7 +165,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         setupToolbar();
         setupDrawer();
-        loadUserInfoValue();
+        initUserFields();
+        initUserInfoValue();
+
+        initFieldValue();
+        initMainValue();
+        initPhoto();
+
         Picasso.with(this)
                 .load(mDataManager.getPreferencesManager().loadUserPhoto())
                 .placeholder(R.drawable.userphoto) //// TODO: 07.07.2016 сделать плейсхолдер
@@ -156,6 +186,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             //приложение запущено повторно
             mCurrentEditMode = savedInstanceState.getInt(ConstantManager.EDIT_MODE_KEY, 0);
             changeEditMode(mCurrentEditMode);
+        }
+    }
+
+    private void uploadPhoto(Uri uri) {
+        if (NetworkStatusChecker.isNetworkAvailable(this)) {
+            File file = new File(uri.getPath());
+
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+            MultipartBody.Part body = MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+
+            String descriptionString = "load photo";
+            RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), descriptionString);
+
+            Call<ResponseBody> call = mDataManager.savePhoto(description, body);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call,
+                                       Response<ResponseBody> response) {
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        } else {
+            showSnackbar(getString(R.string.error_auth_internet));
         }
     }
 
@@ -194,7 +252,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         Log.d(TAG, "onPause");
 
-        saveUserInfoValue();
+        saveUserFields();
     }
 
     @Override
@@ -285,7 +343,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 item.setChecked(true);
 
                 if (item.getItemId() == R.id.exit_menu) {
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    startActivity(new Intent(MainActivity.this, AuthActivity.class));
                 }
 
                 mNavigationDrawer.closeDrawer(GravityCompat.START);
@@ -359,13 +417,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             for (TextInputLayout textInputLayout : mUserInputFieldViews) {
                 if (textInputLayout.isErrorEnabled()) {
                     save = false;
-                    loadUserInfoValue();
+                    initUserFields();
                     showSnackbar(getString(R.string.error_input_user_info));
                     break;
                 }
             }
             if (save) {
-                saveUserInfoValue();
+                saveUserFields();
                 setUserEmail();
             }
 
@@ -381,24 +439,54 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * переписывает email профиля
      */
     private void setUserEmail() {
-        mUserEmail.setText(mUserMail.getText().toString());
+        mUserProfileEmail.setText(mUserMail.getText().toString());
     }
 
     /**
      * загрузка данных пользователя из памяти
      */
-    private void loadUserInfoValue() {
+    private void initUserFields() {
         List<String> userData = mDataManager.getPreferencesManager().loadUserProfileData();
 
         for (int i = 0; i < userData.size(); i++) {
-            mUserFieldViews.get(i).setText(userData.get(i));
+            if (!mUserFieldViews.get(i).equals("null"))  mUserFieldViews.get(i).setText(userData.get(i));
         }
+    }
+
+    private void initUserInfoValue() {
+        List<String> userData = mDataManager.getPreferencesManager().loadUserProfileInfoValues();
+        for (int i=0; i<userData.size();i++) {
+            mUserValueViews.get(i).setText(userData.get(i));
+        }
+    }
+
+    private void initFieldValue() {
+        List<String> fieldData = mDataManager.getPreferencesManager().loadContentValue();
+        for (int i = 0; i < fieldData.size(); i++) {
+            mUserFieldViews.get(i).setText(fieldData.get(i));
+        }
+    }
+
+    private void initMainValue() {
+        List<String> mainData = mDataManager.getPreferencesManager().loadNavValue();
+        try {
+            mUserProfileName.setText(mainData.get(0) + " " + mainData.get(1));
+        } catch (Exception e) {
+
+        }
+        mUserProfileEmail.setText(mDataManager.getPreferencesManager().getEmail());
+        Uri uri = Uri.parse(mainData.get(2));
+        Picasso.with(this).load(uri).into(avatarImg);
+    }
+
+    private void initPhoto() {
+        insertProfileImage(mDataManager.getPreferencesManager().loadUserPhoto());
     }
 
     /**
      * сохранение данных пользователя в память
      */
-    private void saveUserInfoValue() {
+    private void saveUserFields() {
         List<String> userData = new ArrayList<>();
         for (EditText userFieldsView: mUserFieldViews) {
             userData.add(userFieldsView.getText().toString());
@@ -407,6 +495,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mDataManager.getPreferencesManager().saveUserProfileData(userData);
     }
 
+
     /**
      * создание круглой картинки аватара
      */
@@ -414,6 +503,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = false;
         Bitmap avatar = BitmapFactory.decodeResource(getResources(), R.drawable.avatar, options);
+        CircleAvatarDrawable circleAvatarDrawable = new CircleAvatarDrawable(avatar);
+        avatarImg.setImageDrawable(circleAvatarDrawable);
+    }
+
+    private void createCircleAvatar(File image) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inMutable = false;
+        Bitmap avatar = BitmapFactory.decodeFile(image.getPath());
         CircleAvatarDrawable circleAvatarDrawable = new CircleAvatarDrawable(avatar);
         avatarImg.setImageDrawable(circleAvatarDrawable);
     }
