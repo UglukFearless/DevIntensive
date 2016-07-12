@@ -172,14 +172,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         initMainValue();
         initPhoto();
 
-        Picasso.with(this)
-                .load(mDataManager.getPreferencesManager().loadUserPhoto())
-                .placeholder(R.drawable.userphoto) //// TODO: 07.07.2016 сделать плейсхолдер
-                .into(mProfileImage);
-
-        createCircleAvatar();
-
-
         if (savedInstanceState == null) {
             //приложение запущено впервые
         } else {
