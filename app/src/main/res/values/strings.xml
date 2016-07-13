@@ -37,4 +37,9 @@
     <string name="error_format_email">Некорректный формат. Формат: xxx@xx.xx</string>
     <string name="error_format_path_vk">Некорректный формат. Формат: vk.com/xxx</string>
     <string name="error_format_path_github">Некорректный формат. Формат: github.com/xxx</string>
+    <string name="user_fio">Данилов Алексей</string>
+    <string name="e_mail">alekseyDanilov@mail.ru</string>
+    <string name="error_auth_login">Неверный логин или пароль</string>
+    <string name="error_auth_other">Беги!!!!</string>
+    <string name="error_auth_internet">Сеть на данный момент недоступна, попробуйте позже</string>
 </resources>

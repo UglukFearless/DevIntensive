@@ -6,33 +6,34 @@
     tools:context=".ui.activities.MainActivity"
     android:id="@+id/navigation_drawer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_coordinator_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar_layout"
             android:theme="@style/AppTheme.AppBarOverlay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_primary">
+            android:layout_height="@dimen/profile_image_size"
+            android:background="@color/color_primary"
+            android:fitsSystemWindows="true">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/profile_image_size"
                 app:contentScrim="@color/color_primary"
                 app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:fitsSystemWindows="true">
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/profile_image_size"
-                    android:fitsSystemWindows="true">
+                    android:layout_height="@dimen/profile_image_size">
                     <ImageView
                         android:id="@+id/user_photo_img"
                         android:layout_width="match_parent"
@@ -60,6 +61,7 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_add_a_photo_24px"
                             android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
                             android:layout_alignParentBottom="true"
                             android:layout_marginBottom="@dimen/spacing_medium_56"/>
                     </RelativeLayout>
@@ -68,7 +70,7 @@
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:theme="@style/AppTheme.PopupOverlay"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
                     android:titleTextColor="@color/white"
                     app:layout_collapseMode="pin"/>
@@ -77,7 +79,73 @@
 
         </android.support.design.widget.AppBarLayout>
 
-            <include layout="@layout/user_profile_content"/>
+            <LinearLayout
+                android:id="@+id/user_info_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_large_112"
+                android:background="@color/gray"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_behavior=".ui.behaviors.UserInfoBehavior"
+                app:behavior_min_height="@dimen/size_medium_56">
+
+                <LinearLayout
+                    style="@style/linear_layout"
+                    android:layout_weight="1"
+                    app:layout_collapseMode="pin">
+
+                    <TextView
+                        android:id="@+id/user_info_rait_txt"
+                        style="@style/text_view.title"
+                        android:text="5"/>
+
+                    <TextView
+                        style="@style/text_view"
+                        android:text="@string/text_rating"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/size_small_1"
+                    android:layout_height="@dimen/size_medium_72"
+                    android:background="@color/gray_light"/>
+
+                <LinearLayout
+                    style="@style/linear_layout"
+                    android:layout_weight="2">
+
+                    <TextView
+                        android:id="@+id/user_info_code_lines_txt"
+                        style="@style/text_view.title"
+                        android:text="5"/>
+
+                    <TextView
+                        style="@style/text_view"
+                        android:text="@string/text_code_lines"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/size_small_1"
+                    android:layout_height="@dimen/size_medium_72"
+                    android:background="@color/gray_light"/>
+
+                <LinearLayout
+                    style="@style/linear_layout"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/user_info_projects_txt"
+                        style="@style/text_view.title"
+                        android:text="5"/>
+
+                    <TextView
+                        style="@style/text_view"
+                        android:text="@string/app_projects"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+        <include layout="@layout/user_profile_content"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
