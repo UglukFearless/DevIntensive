@@ -338,6 +338,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(new Intent(MainActivity.this, AuthActivity.class));
                 }
 
+                if (item.getItemId() == R.id.team_menu) {
+                    startActivity(new Intent(MainActivity.this, UserListActivity.class));
+                }
+
                 mNavigationDrawer.closeDrawer(GravityCompat.START);
                 return false;
             }

@@ -13,12 +13,8 @@ import com.softdesign.devintensive.data.network.res.UserListRes;
 import com.softdesign.devintensive.ui.view.AspectRatioImageView;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Ugluk on 15.07.2016.
@@ -46,16 +42,26 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     public void onBindViewHolder(UsersAdapter.UserViewHolder holder, int position) {
         UserListRes.UserData user = mUsers.get(position);
 
-        Picasso.with(mContext)
-                .load(user.getPublicInfo().getPhoto())
-                .placeholder(mContext.getResources().getDrawable(R.drawable.header_bg))
-                .error(mContext.getResources().getDrawable(R.drawable.header_bg))
-                .into(holder.userPhoto);
+        if (!(user.getPublicInfo().getPhoto().isEmpty())) {
+            Picasso.with(mContext)
+                    .load(user.getPublicInfo().getPhoto())
+                    .placeholder(mContext.getResources().getDrawable(R.drawable.nav_header_bg))
+                    .error(mContext.getResources().getDrawable(R.drawable.nav_header_bg))
+                    .into(holder.userPhoto);
+        } else {
+            Picasso.with(mContext)
+                    .load(R.drawable.nav_header_bg)
+                    .placeholder(mContext.getResources().getDrawable(R.drawable.nav_header_bg))
+                    .error(mContext.getResources().getDrawable(R.drawable.nav_header_bg))
+                    .into(holder.userPhoto);
+        }
+
+
 
         holder.mFullName.setText(user.getFullName());
-        holder.mRating.setText(user.getProfileValues().getRating());
-        holder.mCodeLines.setText(user.getProfileValues().getLinesCode());
-        holder.mProjects.setText(user.getProfileValues().getProjects());
+        holder.mRating.setText(String.valueOf(user.getProfileValues().getRating()));
+        holder.mCodeLines.setText(String.valueOf(user.getProfileValues().getLinesCode()));
+        holder.mProjects.setText(String.valueOf(user.getProfileValues().getProjects()));
 
         if (user.getPublicInfo().getBio()!=null&&!user.getPublicInfo().getBio().isEmpty()) {
             holder.mBio.setText(user.getPublicInfo().getBio());
@@ -68,24 +74,18 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mUsers.size();
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.user_photo_img)
         AspectRatioImageView userPhoto;
-        @BindView(R.id.user_full_name_txt)
         TextView mFullName;
-        @BindView(R.id.rating_txt)
         TextView mRating;
-        @BindView(R.id.code_lines_txt)
         TextView mCodeLines;
-        @BindView(R.id.projects_txt)
         TextView mProjects;
-        @BindView(R.id.bio_txt)
         TextView mBio;
-        @BindView(R.id.btn_more_info)
+
         Button mShowMore;
 
         private CustomClickListener mListener;
@@ -93,9 +93,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         public UserViewHolder(View itemView, CustomClickListener customClickListener) {
             super(itemView);
 
-            mListener = customClickListener;
-            ButterKnife.bind(itemView);
+            userPhoto = (AspectRatioImageView) itemView.findViewById(R.id.user_photo_img);
+            mFullName = (TextView)itemView.findViewById(R.id.user_full_name_txt);
+            mRating = (TextView)itemView.findViewById(R.id.rating_txt);
+            mCodeLines = (TextView)itemView.findViewById(R.id.code_lines_txt);
+            mProjects = (TextView)itemView.findViewById(R.id.projects_txt);
+            mBio = (TextView)itemView.findViewById(R.id.bio_txt);
 
+            mListener = customClickListener;
+
+            mShowMore = (Button) itemView.findViewById(R.id.btn_more_info);
             mShowMore.setOnClickListener(this);
         }
 
