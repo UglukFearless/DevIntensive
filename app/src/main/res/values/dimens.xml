@@ -48,5 +48,6 @@
     <dimen name="size_small_4">4dp</dimen>
     <dimen name="spacing_normal_20">20dp</dimen>
     <dimen name="size_large_126">126dp</dimen>
+    <dimen name="font_large_24">24sp</dimen>
 
 </resources>

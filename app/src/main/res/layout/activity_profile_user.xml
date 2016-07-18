@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/main_coordinator_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_image_size"
+        android:background="@color/color_primary"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_image_size"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/color_primary"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                <ImageView
+                    android:id="@+id/user_photo_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/profile_image_size"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/login_bg"
+                    android:fitsSystemWindows="true"/>
+
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                app:theme="@style/ToolBarStyle"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:titleTextColor="@color/white"
+                app:layout_collapseMode="pin"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/user_info_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_large_112"
+        android:background="@color/gray"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:behavior_min_height="@dimen/size_medium_56"
+        app:layout_behavior=".ui.behaviors.UserInfoBehavior">
+
+        <LinearLayout
+            style="@style/linear_layout"
+            android:layout_weight="1"
+            app:layout_collapseMode="pin">
+
+            <TextView
+                android:id="@+id/user_info_rait_txt"
+                style="@style/text_view.title"
+                android:text="5"/>
+
+            <TextView
+                style="@style/text_view"
+                android:text="@string/text_rating"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/size_small_1"
+            android:layout_height="@dimen/size_medium_72"
+            android:background="@color/gray_light"/>
+
+        <LinearLayout
+            style="@style/linear_layout"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/user_info_code_lines_txt"
+                style="@style/text_view.title"
+                android:text="5"/>
+
+            <TextView
+                style="@style/text_view"
+                android:text="@string/text_code_lines"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/size_small_1"
+            android:layout_height="@dimen/size_medium_72"
+            android:background="@color/gray_light"/>
+
+        <LinearLayout
+            style="@style/linear_layout"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/user_info_projects_txt"
+                style="@style/text_view.title"
+                android:text="5"/>
+
+            <TextView
+                style="@style/text_view"
+                android:text="@string/text_projects"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <include layout="@layout/static_profile_content"/>
+
+
+</android.support.design.widget.CoordinatorLayout>

@@ -3,7 +3,7 @@
 
     <string name="text_rating">Рейтинг</string>
     <string name="text_code_lines">Написано строк кода</string>
-    <string name="app_projects">Проектов</string>
+    <string name="text_projects">Проектов</string>
 
     <string name="menu_user_title">Мой профиль</string>
     <string name="menu_team_title">Команда</string>
@@ -42,4 +42,5 @@
     <string name="error_auth_login">Неверный логин или пароль</string>
     <string name="error_auth_other">Беги!!!!</string>
     <string name="error_auth_internet">Сеть на данный момент недоступна, попробуйте позже</string>
+    <string name="text_btn_watch">Просмотр</string>
 </resources>
